@@ -2,7 +2,9 @@ import React, { useRef } from 'react'
 import Link from 'next/link';
 import { AiOutlineMinus, AiOutlinePlus, AiOutlineShopping, AiOutlineRight } from 'react-icons/ai';
 import { TiDeleteOutline } from 'react-icons/ti';
-import toast from 'react-hot-toast';
+
+import { motion } from "framer-motion"
+
 
 import { useStateContext } from '../context/StateContext';
 import { urlFor } from '../lib/client';
@@ -11,13 +13,19 @@ import { urlFor } from '../lib/client';
 
 const Korpa = () => {
   const cartRef = useRef();
-  const { totalPrice, totalQuantities, cartItems, setShowCart, toggleCartItemQuanitity, onRemove,setpromo,promo } = useStateContext();
+  const { totalPrice, totalQuantities, cartItems, setShowCart, toggleCartItemQuanitity, onRemove, setpromo, promo } = useStateContext();
   const pom = () => {
 
   }
   return (
-    <div className='cart-wrapper' ref={cartRef}>
-      <div className="cart-container">
+    <motion.div className='cart-wrapper' ref={cartRef}
+      
+    >
+      <motion.div className="cart-container"
+            initial={{ opacity: 0, left: 300 }}
+            animate={{ opacity: 1, left: 0 }}
+            transition={{ duration: 0.5 }}
+      >
         <button
           type="button"
           className="cart-heading"
@@ -48,12 +56,12 @@ const Korpa = () => {
               <div className="item-desc">
                 <div className="flex top">
                   <h5>{item.naziv}</h5>
-      
+
                   <h4>{item.cena}Rsd</h4>
                 </div>
-                  {
-                    item.zaliha > 0 ? <h5>{item.zaliha > 4 ? <p> Na stanju {item.zaliha} komada </p> : <p> Ostalo jos samo {item.zaliha} komada</p>} </h5> : <h5>Proizvod nedosupan</h5>
-                  }
+                {
+                  item.zaliha > 0 ? <h5>{item.zaliha > 4 ? <p> Na stanju {item.zaliha} komada </p> : <p> Ostalo jos samo {item.zaliha} komada</p>} </h5> : <h5>Proizvod nedosupan</h5>
+                }
                 <div className="flex bottom">
                   <div>
                     <p className="quantity-desc">
@@ -83,11 +91,6 @@ const Korpa = () => {
               <h3>Ukupno:</h3>
               <h3>{totalPrice} Rsd</h3>
             </div>
-            <div className="total mt10">
-              <h3>Promo kod:</h3>
-              <input type="text"  value={promo} onChange={(e) => setpromo(e.target.value)}></input>
-            </div>
-            <h6>Promo kod moze da uamni cenu artikla za 5%, 10% I 20%</h6>
             <div className="btn-container">
               <Link href={`/placanje`}>
                 <button type="button" className="btn voz" onClick={() => setShowCart(false)}>
@@ -97,8 +100,8 @@ const Korpa = () => {
             </div>
           </div>
         )}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   )
 }
 
